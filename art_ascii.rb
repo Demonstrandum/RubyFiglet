@@ -1,4 +1,14 @@
-
+class String
+  def each
+    i = 0
+    while i < self.length
+      yield self[i]
+      i += 1
+    end
+  end
+  def art;  ArtASCII.new(self).stringify end
+  def art!; replace art end
+end
 
 class ArtASCII
   def initialize string
