@@ -14,11 +14,13 @@ end
 
 class Figlet
   def initialize string, font='big'
-    @string = string
-    @font = font
     data = Font::Figlet.new(font).font_data
     @lookup = data[:lookup_table]
     @height = data[:height]
+    @direction = data[:direction]
+    string = string.reverse if @direction == 1
+    @string = string
+    @font = font
   end
 
   def stringify
@@ -28,6 +30,15 @@ class Figlet
         string << @lookup[char][row]
       end
       string << "\n"
+    end
+    lines = string.split "\n"
+    if @direction == 1
+      (0..(%x[tput cols].to_i - 1) - lines[0].length).each do # Holy Moly, from 0 to (terminal width minus 1) minus length of the ascii art word.
+        lines.each_with_index do |line, i|
+          lines[i].insert 0, " "
+        end
+      end
+      return lines.join "\n"
     end
     return string
   end
