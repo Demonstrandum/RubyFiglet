@@ -1,7 +1,7 @@
 module Font
   class Figlet
     def initialize font
-      unless Dir.entries('../fonts').include? "#{font}.flf"
+      unless Dir.entries('fonts').include? "#{font}.flf"
         puts "Font not found!"
         exit 1
       end
@@ -9,7 +9,7 @@ module Font
     end
 
     private def scan
-      contents = File.open("../fonts/#{@fontName}.flf").read
+      contents = File.open("fonts/#{@fontName}.flf").read
       lines = contents.split "\n"
       unless lines[0].include? "flf2a"
         puts "Invalid FIGlet v2.0 font.\nThis font is not compatible with this interpreter!"
