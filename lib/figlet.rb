@@ -23,9 +23,9 @@ class Figlet
 
   def stringify
     string = String.new
-    (0..@height - 1).each do |line|
+    (0..@height - 1).each do |row|
       @string.each do |char|
-        string << @lookup[char][line]
+        string << @lookup[char][row]
       end
       string << "\n"
     end
@@ -36,7 +36,7 @@ class Figlet
     print stringify
   end
 
-  def self.available folder="../fonts"
+  def self.available folder="fonts"
     dir = Dir.entries(folder)
     (0..dir.size - 1).each do |i|
       dir[i] += '/' unless dir[i].include? '.flf'
@@ -44,8 +44,15 @@ class Figlet
     list = dir.join "\n"
     ignore = ["..", ".", ".DS_Store", "._.DS_Store", ".DS_Store?", ".Spotlight-V100", ".Trashes", "ehthumbs.db", "Thumbs.db", "desktop.ini"]
     ignore.each { |file| list.gsub! "#{file}/", "" }
-    list.gsub! ".flf", "" # ignore extensions
+    list.gsub! ".flf", "" # don't show extensions
 
-    return list
+    return list.squeeze "\n"
   end
+end
+
+if caller.length == 0
+  eval(ARGV[2]) if ARGV.size > 2
+  font = ARGV[1]
+  font = 'big' if ARGV[1].nil?
+  puts ARGV[0].art font
 end
