@@ -7,14 +7,14 @@ module Font
       end
       @fontName = font
     end
-    
+
     private def to_utf8(str)
       str = str.force_encoding("UTF-8")
       return str if str.valid_encoding?
       str = str.force_encoding("BINARY")
       str.encode("UTF-8", invalid: :replace, undef: :replace)
     end
-    
+
     private def scan
       contents = File.open("fonts/#{@fontName}.flf").read; contents = to_utf8(contents)
       lines = contents.split "\n"
@@ -35,7 +35,7 @@ module Font
       full_lay  = 64
       tag_count = 229
       if meta.size > 6 # overide defaults
-        print_way = meta[6].to_i
+        @print_way = meta[6].to_i
         full_lay  = meta[7].to_i
         tag_count = meta[8].to_i
       end
@@ -44,10 +44,10 @@ module Font
                                                 # since I delete the first line
                                                 # the next line has now become
                                                 # the first line, embarrassing how long that took.
+      endmark = lines[0][lines[0].length - 1]
       (0..lines.size - 1).each do |i|
         lines[i].gsub!(hardblank, " ")
-        lines[i].gsub!("@", "") unless lines[i].include? "#" 
-        lines[i].gsub!("#", "") unless lines[i].include? "@" # So one can choose the endmark
+        lines[i].gsub!(endmark, "")
       end
 
       charachter_hash = { # I really can't think
@@ -147,7 +147,7 @@ module Font
         '}' => Array.new,
         '~' => Array.new,
       }
-      
+
       charachter_hash.each do |key, value|
         (0..height - 1).each do |line|
           charachter_hash[key] << lines[line]
@@ -159,7 +159,7 @@ module Font
     end
 
     def font_data
-      {'lookup_table': scan, 'height': @height}
+      {'lookup_table': scan, 'height': @height, 'direction': @print_way}
     end
   end
 end
