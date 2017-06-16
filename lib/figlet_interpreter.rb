@@ -7,9 +7,16 @@ module Font
       end
       @fontName = font
     end
-
+    
+    private def to_utf8(str)
+      str = str.force_encoding("UTF-8")
+      return str if str.valid_encoding?
+      str = str.force_encoding("BINARY")
+      str.encode("UTF-8", invalid: :replace, undef: :replace)
+    end
+    
     private def scan
-      contents = File.open("fonts/#{@fontName}.flf").read
+      contents = File.open("fonts/#{@fontName}.flf").read; contents = to_utf8(contents)
       lines = contents.split "\n"
       unless lines[0].include? "flf2a"
         puts "Invalid FIGlet v2.0 font.\nThis font is not compatible with this interpreter!"
@@ -39,7 +46,8 @@ module Font
                                                 # the first line, embarrassing how long that took.
       (0..lines.size - 1).each do |i|
         lines[i].gsub!(hardblank, " ")
-        lines[i].gsub!("@", "")
+        lines[i].gsub!("@", "") unless lines[i].include? "#" 
+        lines[i].gsub!("#", "") unless lines[i].include? "@" # So one can choose the endmark
       end
 
       charachter_hash = { # I really can't think
@@ -121,7 +129,7 @@ module Font
         'k' => Array.new,
         'l' => Array.new,
         'm' => Array.new,
-        'n' => Array.new, # There must be a better way
+        'n' => Array.new, # Maybe I should just do this using bytes...
         'o' => Array.new,
         'p' => Array.new,
         'q' => Array.new,
@@ -139,7 +147,7 @@ module Font
         '}' => Array.new,
         '~' => Array.new,
       }
-
+      
       charachter_hash.each do |key, value|
         (0..height - 1).each do |line|
           charachter_hash[key] << lines[line]
