@@ -27,12 +27,12 @@ module Font
       end
 
       meta = lines[0].split " "
-      hardblank = meta[0][5];
-      height    = meta[1].to_i; @height = height # as well
-      baseline  = meta[2].to_i
-      max_len   = meta[3].to_i
-      old_lay   = meta[4].to_i
-      commented = meta[5].to_i
+      @hardblank = meta[0][5];
+      @height    = meta[1].to_i
+      @baseline  = meta[2].to_i
+      @max_len   = meta[3].to_i
+      @old_lay   = meta[4].to_i
+      @commented = meta[5].to_i
       # defaults, currently not used
       @print_way = 0
       full_lay  = 64
@@ -43,13 +43,13 @@ module Font
         tag_count = meta[8].to_i
       end
       # we've got the information, now delete it form the `lines`
-      (0..commented).each { lines.delete_at 0 } # This bugger,
+      (0..@commented).each { lines.delete_at 0 } # This bugger,
                                                 # since I delete the first line
                                                 # the next line has now become
                                                 # the first line, embarrassing how long that took.
       endmark = lines[0][lines[0].length - 1]
       (0..lines.size - 1).each do |i|
-        lines[i].gsub!(hardblank, " ")
+        lines[i].gsub!(@hardblank, " ")
         lines[i].gsub!(endmark, "")
       end
 
@@ -152,10 +152,10 @@ module Font
       }
 
       charachter_hash.each do |key, value|
-        (0..height - 1).each do |line|
+        (0..@height - 1).each do |line|
           charachter_hash[key] << lines[line]
         end
-        lines.slice! 0..height - 1
+        lines.slice! 0..@height - 1
       end
 
       return charachter_hash
