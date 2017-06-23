@@ -1,22 +1,25 @@
+class String
+  def to_utf8
+    str = self.force_encoding("UTF-8")
+    return str if str.valid_encoding?
+    str = str.force_encoding("BINARY")
+    str.encode("UTF-8", invalid: :replace, undef: :replace)
+  end
+end
+
 module Font
+  WD = File.dirname(__FILE__)
   class Figlet
     def initialize font
-      unless Dir.entries('fonts').include? "#{font}.flf"
+      unless Dir.entries("#{WD}/../fonts").include? "#{font}.flf"
         puts "Font not found!"
         exit 1
       end
       @fontName = font
     end
 
-    private def to_utf8(str)
-      str = str.force_encoding("UTF-8")
-      return str if str.valid_encoding?
-      str = str.force_encoding("BINARY")
-      str.encode("UTF-8", invalid: :replace, undef: :replace)
-    end
-
     private def scan
-      contents = File.open("fonts/#{@fontName}.flf").read; contents = to_utf8(contents)
+      contents = File.open("#{WD}/../fonts/#{@fontName}.flf").read.to_utf8
       lines = contents.split "\n"
       unless lines[0].include? "flf2a"
         puts "Invalid FIGlet v2.0 font.\nThis font is not compatible with this interpreter!"
@@ -31,7 +34,7 @@ module Font
       old_lay   = meta[4].to_i
       commented = meta[5].to_i
       # defaults, currently not used
-      print_way = 0
+      @print_way = 0
       full_lay  = 64
       tag_count = 229
       if meta.size > 6 # overide defaults
