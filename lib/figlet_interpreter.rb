@@ -7,11 +7,11 @@ class String
   end
 end
 
-module Font
+module FigFont
   WD = File.dirname(__FILE__)
   class Figlet
     def initialize font
-      unless Dir.entries("#{WD}/../fonts").include? "#{font}.flf"
+      unless Dir.entries("#{WD}/fonts").include? "#{font}.flf"
         puts "Font not found!"
         exit 1
       end
@@ -19,7 +19,7 @@ module Font
     end
 
     private def scan
-      contents = File.open("#{WD}/../fonts/#{@fontName}.flf").read.to_utf8
+      contents = File.open("#{WD}/fonts/#{@fontName}.flf").read.to_utf8
       lines = contents.split "\n"
       unless lines[0].include? "flf2a"
         puts "Invalid FIGlet v2.0 font.\nThis font is not compatible with this interpreter!"
@@ -53,112 +53,29 @@ module Font
         lines[i].gsub!(endmark, "")
       end
 
-      charachter_hash = { # I really can't think
-        ' ' => Array.new, # of a 'DRY' way of doing this.
-        '!' => Array.new,
-        '"' => Array.new,
-        '#' => Array.new,
-        '$' => Array.new,
-        '%' => Array.new,
-        '&' => Array.new,
-        '\''=> Array.new,
-        '(' => Array.new,
-        ')' => Array.new,
-        '*' => Array.new,
-        '+' => Array.new,
-        ',' => Array.new,
-        '-' => Array.new,
-        '.' => Array.new,
-        '/' => Array.new,
-        '0' => Array.new,
-        '1' => Array.new,
-        '2' => Array.new,
-        '3' => Array.new,
-        '4' => Array.new,
-        '5' => Array.new,
-        '6' => Array.new,
-        '7' => Array.new,
-        '8' => Array.new,
-        '9' => Array.new,
-        ':' => Array.new,
-        ';' => Array.new,
-        '<' => Array.new,
-        '=' => Array.new,
-        '>' => Array.new,
-        '?' => Array.new,
-        '@' => Array.new,
-        'A' => Array.new,
-        'B' => Array.new,
-        'C' => Array.new,
-        'D' => Array.new,
-        'E' => Array.new,
-        'F' => Array.new,
-        'G' => Array.new, # Forgot the G
-        'H' => Array.new,
-        'I' => Array.new,
-        'J' => Array.new,
-        'K' => Array.new,
-        'L' => Array.new,
-        'M' => Array.new,
-        'N' => Array.new,
-        'O' => Array.new,
-        'P' => Array.new,
-        'Q' => Array.new,
-        'R' => Array.new,
-        'S' => Array.new,
-        'T' => Array.new,
-        'U' => Array.new,
-        'V' => Array.new,
-        'W' => Array.new,
-        'X' => Array.new,
-        'Y' => Array.new,
-        'Z' => Array.new,
-        '[' => Array.new,
-        '\\'=> Array.new,
-        ']' => Array.new,
-        '^' => Array.new,
-        '_' => Array.new,
-        '`' => Array.new,
-        'a' => Array.new,
-        'b' => Array.new,
-        'c' => Array.new,
-        'd' => Array.new,
-        'e' => Array.new,
-        'f' => Array.new,
-        'g' => Array.new,
-        'h' => Array.new,
-        'i' => Array.new,
-        'j' => Array.new,
-        'k' => Array.new,
-        'l' => Array.new,
-        'm' => Array.new,
-        'n' => Array.new, # Maybe I should just do this using bytes...
-        'o' => Array.new,
-        'p' => Array.new,
-        'q' => Array.new,
-        'r' => Array.new,
-        's' => Array.new,
-        't' => Array.new,
-        'u' => Array.new,
-        'v' => Array.new,
-        'w' => Array.new,
-        'x' => Array.new,
-        'y' => Array.new,
-        'z' => Array.new,
-        '{' => Array.new,
-        '|' => Array.new,
-        '}' => Array.new,
-        '~' => Array.new,
-      }
+      char_hash = Hash.new
+      (32..126).each do |code|
+        char_hash[code.chr] = Array.new(@height, String.new)
+      end # Much shorter than manually writing out every value
 
-      charachter_hash.each do |key, value|
+      char_hash.merge!({
+        'Ä' => Array.new(@height, String.new),
+        'Ö' => Array.new(@height, String.new),
+        'Ü' => Array.new(@height, String.new),
+        'ä' => Array.new(@height, String.new),
+        'ö' => Array.new(@height, String.new),
+        'ü' => Array.new(@height, String.new),
+        'ß' => Array.new(@height, String.new)
+      }) if lines.length > 95 * @height
+
+      char_hash.each do |key, value|
         (0..@height - 1).each do |line|
-          charachter_hash[key] << lines[line]
+          char_hash[key][line] = lines[line]
         end
         lines.slice! 0..@height - 1
       end
 
-      return charachter_hash
+      return char_hash
     end
 
     def font_data
