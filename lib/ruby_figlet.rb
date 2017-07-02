@@ -22,6 +22,7 @@ module RubyFiglet
       @lookup = data[:lookup_table]
       @height = data[:height]
       @direction = data[:direction]
+      @smushing = data[:old_layout]
       string = string.reverse if @direction == 1
       @string = string
       @font = font
@@ -35,14 +36,14 @@ module RubyFiglet
         end
         string << "\n"
       end
-      lines = string.split "\n"
       if @direction == 1
+        lines = string.split "\n"
         (0..(%x[tput cols].to_i - 1) - lines[0].length).each do # Holy Moly, from 0 to (terminal width minus 1) minus length of the ascii art word.
           lines.each_with_index do |line, i|
             lines[i].insert 0, " "
           end
         end
-        return lines.join "\n"
+        string = lines.join "\n"
       end
       return string
     end
