@@ -82,14 +82,14 @@ module FigFont
         lines.slice! 0..@height - 1
       end
 
-      smush! char_hash, lines
+      smush! char_hash unless @old_lay == -1
       char_hash.each do |key, arr|
         (0..@height - 1).each { |i| char_hash[key][i] = arr[i].gsub(@hardblank, " ") }
       end
       return char_hash
     end
 
-    private def smush hash, lines
+    private def smush hash
       hash.each do |letter, letter_arr|
         (0..letter_arr.min_by(&:length).length - 1).each do |over| # from 0 to the length of the shortest line in the array
           same_at_index = Array.new(@height - 1, false)
@@ -106,8 +106,8 @@ module FigFont
       hash
     end
 
-    private def smush! hash, lines
-      hash.replace smush hash, lines
+    private def smush! hash
+      hash.replace smush hash
     end
 
     def font_data
