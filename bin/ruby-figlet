@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+require 'ruby_figlet'
+using RubyFiglet
+
+unless (ARGV & %w(help --help -h)).empty?
+  puts <<HELP
+
+`list`: to see all fonts available.
+Type anything in citation marks to show it in ASCII art form.
+`-f`: and a font name to change the font
+`-h`, `--help` or `help`: to show this menu.
+
+HELP
+  exit 0
+end
+puts RubyFiglet::Figlet.available if ARGV[0] == 'list'
+exit 0 if ARGV[0] == 'list'
+
+font = 'standard'
+if ARGV.include? '-f'
+  font = ARGV[ARGV.index('-f') + 1]
+  ARGV.delete('-f')
+  ARGV.delete(font)
+end
+puts ARGV[0].art font
