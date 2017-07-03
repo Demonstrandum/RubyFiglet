@@ -79,7 +79,7 @@ puts bowl # =>  SSS                 ???
 
 # Newline support!
 two_lines = RubyFiglet::Figlet.new "broken\nline", 'basic'
-two_lnes.show
+two_lines.show
 # =>
 # d8888b. d8888b.  .d88b.  db   dD d88888b d8b   db
 # 88  `8D 88  `8D .8P  Y8. 88 ,8P' 88'     888o  88
