@@ -59,7 +59,7 @@ module RubyFiglet
     end
 
     def show
-      print stringify
+      puts stringify
     end
 
     WD = File.dirname(__FILE__)

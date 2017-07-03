@@ -40,8 +40,8 @@ puts moo # Default font is 'standard' when no arguments given
 
 # or
 
-print "meow...".art                               # all
-print RubyFiglet::Figlet.new("meow...").stringify # work
+puts "meow...".art                               # all
+puts RubyFiglet::Figlet.new("meow...").stringify # work
 RubyFiglet::Figlet.new("meow...").show            # equally
 
 # str.art(font)/str.art!(font) and RubyFiglet::Figlet.new(str, font) have a font parameter!
