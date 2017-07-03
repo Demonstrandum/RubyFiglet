@@ -8,6 +8,20 @@ gem install ruby_figlet
 ```
 
 ## Usage
+In your shell
+```shell
+ruby-figlet -f alligator "ruby"
+
+      :::::::::      :::    :::       :::::::::    :::   :::
+     :+:    :+:     :+:    :+:       :+:    :+:   :+:   :+:  
+    +:+    +:+     +:+    +:+       +:+    +:+    +:+ +:+    
+   +#++:++#:      +#+    +:+       +#++:++#+      +#++:      
+  +#+    +#+     +#+    +#+       +#+    +#+      +#+        
+ #+#    #+#     #+#    #+#       #+#    #+#      #+#         
+###    ###      ########        #########       ###    
+
+```
+But mainly as a library
 ```ruby
 require 'ruby_figlet'
 using RubyFiglet # For String.new(...).art / .art! Moneky Patches
@@ -24,12 +38,11 @@ puts moo # Default font is 'standard' when no arguments given
 # | |  | || (_) || (_) ||_|
 # |_|  |_| \___/  \___/ (_)
 
+# or
 
-# or just
-
-print "meow...".art
-print RubyFiglet::Figlet.new("meow...").stringify
-RubyFiglet::Figlet.new("meow...").show # all work the same
+print "meow...".art                               # all
+print RubyFiglet::Figlet.new("meow...").stringify # work
+RubyFiglet::Figlet.new("meow...").show            # equally
 
 # str.art(font)/str.art!(font) and RubyFiglet::Figlet.new(str, font) have a font parameter!
 
@@ -45,7 +58,14 @@ puts "Heizölrückstoßabdämpfung".art # =>
 # |_| |_| \___||_|/___| \___/ |_||_|    \__,_| \___||_|\_\|___/ \__| \___/ | ||_/ \__,_||_.__/  \__,_| \__,_||_| |_| |_|| .__/ |_|   \__,_||_| |_| \__, |
 #                                                                          |_|                                          |_|                        |___/
 
-puts RubyFiglet::Figlet.new("It's an abstract sort of font", 'weird').stringify
+puts RubyFiglet::Figlet.new("It's an abstract sort of font", 'weird').stringify # =>
+#                                                                                                         __      __                
+# / /    /                            /         /                   /                      /            /       /              /   
+# ( (___     ___     ___  ___     ___ (___  ___ (___  ___  ___  ___ (___     ___  ___  ___ (___     ___ (       (     ___  ___ (___
+# | |       |___    |   )|   )   |   )|   )|___ |    |   )|   )|    |       |___ |   )|   )|       |   )|___    |___ |   )|   )|    
+# | |__      __/    |__/||  /    |__/||__/  __/ |__  |    |__/||__  |__      __/ |__/ |    |__     |__/ |       |    |__/ |  / |__  
+
+
 
 bowl = "Soup?"
 bowl.art! 'alphabet'
@@ -56,4 +76,24 @@ puts bowl # =>  SSS                 ???
           #    SSSS  ooo  uuu ppp    ?   
           #                   p          
           #                   p          
+
+# Newline support!
+two_lines = RubyFiglet::Figlet.new "broken\nline", 'basic'
+two_lnes.show
+# =>
+# d8888b. d8888b.  .d88b.  db   dD d88888b d8b   db
+# 88  `8D 88  `8D .8P  Y8. 88 ,8P' 88'     888o  88
+# 88oooY' 88oobY' 88    88 88,8P   88ooooo 88V8o 88
+# 88~~~b. 88`8b   88    88 88`8b   88~~~~~ 88 V8o88
+# 88   8D 88 `88. `8b  d8' 88 `88. 88.     88  V888
+# Y8888P' 88   YD  `Y88P'  YP   YD Y88888P VP   V8P
+# db      d888888b d8b   db d88888b
+# 88        `88'   888o  88 88'     
+# 88         88    88V8o 88 88ooooo
+# 88         88    88 V8o88 88~~~~~
+# 88booo.   .88.   88  V888 88.     
+# Y88888P Y888888P VP   V8P Y88888P
+
+
+
 ```
