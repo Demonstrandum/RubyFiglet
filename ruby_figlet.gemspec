@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ruby_figlet'
-  s.version     = '0.2.0'
+  s.version     = '0.2.1'
   s.required_ruby_version = '>= 1.9.2'
   s.executables << 'ruby-figlet'
   s.date        = '2017-07-02'
