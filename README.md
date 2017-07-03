@@ -12,13 +12,13 @@ In your shell
 ```shell
 ruby-figlet -f alligator "ruby"
 
-      :::::::::      :::    :::       :::::::::    :::   :::
-     :+:    :+:     :+:    :+:       :+:    :+:   :+:   :+:  
-    +:+    +:+     +:+    +:+       +:+    +:+    +:+ +:+    
-   +#++:++#:      +#+    +:+       +#++:++#+      +#++:      
-  +#+    +#+     +#+    +#+       +#+    +#+      +#+        
- #+#    #+#     #+#    #+#       #+#    #+#      #+#         
-###    ###      ########        #########       ###    
+      :::::::::      :::    :::     :::::::::    :::   :::
+     :+:    :+:     :+:    :+:     :+:    :+:   :+:   :+:  
+    +:+    +:+     +:+    +:+     +:+    +:+    +:+ +:+    
+   +#++:++#:      +#+    +:+     +#++:++#+      +#++:      
+  +#+    +#+     +#+    +#+     +#+    +#+      +#+        
+ #+#    #+#     #+#    #+#     #+#    #+#      #+#         
+###    ###      ########      #########       ###    
 
 ```
 But mainly as a library
@@ -31,7 +31,6 @@ puts RubyFiglet::Figlet.available # see all fonts and more in other dirs
 moo = "Moo!"
 moo.art!
 puts moo # Default font is 'standard' when no arguments given
-# =>
 #  __  __                _
 # |  \/  |  ___    ___  | |
 # | |\/| | / _ \  / _ \ | |
@@ -42,7 +41,7 @@ puts moo # Default font is 'standard' when no arguments given
 
 puts "meow...".art                               # all
 puts RubyFiglet::Figlet.new("meow...").stringify # work
-RubyFiglet::Figlet.new("meow...").show            # equally
+RubyFiglet::Figlet.new("meow...").show           # equally
 
 # str.art(font)/str.art!(font) and RubyFiglet::Figlet.new(str, font) have a font parameter!
 
@@ -59,8 +58,8 @@ puts "Heizölrückstoßabdämpfung".art # =>
 #                                                                          |_|                                          |_|                        |___/
 
 puts RubyFiglet::Figlet.new("It's an abstract sort of font", 'weird').stringify # =>
-#                                                                                                         __      __                
-# / /    /                            /         /                   /                      /            /       /              /   
+#                                                                                                           __      __                
+#   / /    /                            /         /                   /                      /            /       /              /   
 # ( (___     ___     ___  ___     ___ (___  ___ (___  ___  ___  ___ (___     ___  ___  ___ (___     ___ (       (     ___  ___ (___
 # | |       |___    |   )|   )   |   )|   )|___ |    |   )|   )|    |       |___ |   )|   )|       |   )|___    |___ |   )|   )|    
 # | |__      __/    |__/||  /    |__/||__/  __/ |__  |    |__/||__  |__      __/ |__/ |    |__     |__/ |       |    |__/ |  / |__  
@@ -69,13 +68,14 @@ puts RubyFiglet::Figlet.new("It's an abstract sort of font", 'weird').stringify 
 
 bowl = "Soup?"
 bowl.art! 'alphabet'
-puts bowl # =>  SSS                 ???  
-          #    S                   ?   ?
-          #     SSS  ooo u  u ppp     ?  
-          #        S o o u  u p  p   ?   
-          #    SSSS  ooo  uuu ppp    ?   
-          #                   p          
-          #                   p          
+puts bowl
+# =>  SSS                 ???  
+#    S                   ?   ?
+#     SSS  ooo u  u ppp     ?  
+#        S o o u  u p  p   ?   
+#    SSSS  ooo  uuu ppp    ?   
+#                   p          
+#                   p          
 
 # Newline support!
 two_lines = RubyFiglet::Figlet.new "broken\nline", 'basic'
