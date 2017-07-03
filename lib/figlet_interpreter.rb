@@ -51,14 +51,10 @@ module FigFont
         @tag_count = meta[8].to_i
       end
       # we've got the information, now delete it form the `lines`
-      (0..@commented).each { lines.delete_at 0 } # This bugger,
-                                                # since I delete the first line
-                                                # the next line has now become
-                                                # the first line, embarrassing how long that took.
+      (0..@commented).each { lines.delete_at 0 } # since I delete the first line, the next line has now become the first line,
+
       endmark = lines[0][lines[0].length - 1]
-      (0..lines.size - 1).each do |i|
-        lines[i].gsub!(endmark, "")
-      end
+      (0..lines.size - 1).each { |i| lines[i].gsub!(endmark, "") } #remove endmarks
 
       char_hash = Hash.new
       (32..126).each do |code|
@@ -73,19 +69,23 @@ module FigFont
         'ö' => Array.new(@height, String.new),
         'ü' => Array.new(@height, String.new),
         'ß' => Array.new(@height, String.new)
-      }) if lines.length > 95 * @height
+      }) if lines.length > 95 * @height # 95 is the range of the num. of  the default chars
 
       char_hash.each do |key, value|
-        (0..@height - 1).each do |line|
-          char_hash[key][line] = lines[line]
-        end
+        @height.times { |line| char_hash[key][line] = lines[line] }
         lines.slice! 0..@height - 1
       end
 
       smush! char_hash unless @old_lay == -1
       char_hash.each do |key, arr|
-        (0..@height - 1).each { |i| char_hash[key][i] = arr[i].gsub(@hardblank, " ") }
+        @height.times { |i| char_hash[key][i] = arr[i].gsub(@hardblank, " ") }
       end
+
+      # Add fake newline character
+      newline = Array.new(@height, String.new)
+      newline[-1] = 10.chr
+      char_hash[10.chr] = newline
+
       return char_hash
     end
 
@@ -97,9 +97,7 @@ module FigFont
             same_at_index[down] = true if (letter_arr[down][over] == letter_arr[down + 1][over]) && (letter_arr[down][over] == ' ' && letter_arr[down + 1][over] == ' ')
           end
           if same_at_index.all?
-            (0..@height - 1).each do |down|
-              hash[letter][down].delete_at! over
-            end
+            @height.times { |down| hash[letter][down].delete_at! over }
           end
         end  # Pre-word smushing for each letter, when there is a consective vertical line of spaces, then smush them away
       end

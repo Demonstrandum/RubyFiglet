@@ -29,23 +29,33 @@ module RubyFiglet
     end
 
     def stringify
-      string = String.new
-      (0..@height - 1).each do |row|
-        @string.each do |char|
-          string << @lookup[char][row]
+      breaks = @string.split "\n"
+      breaks.each_with_index do |break_line, i|
+        string = String.new
+        @height.times do |row|
+          break_line.each { |char| string << @lookup[char][row] }
+          string << "\n"
         end
-        string << "\n"
-      end
-      if @direction == 1
-        lines = string.split "\n"
-        (0..(%x[tput cols].to_i - 1) - lines[0].length).each do # Holy Moly, from 0 to (terminal width minus 1) minus length of the ascii art word.
-          lines.each_with_index do |line, i|
-            lines[i].insert 0, " "
+        if @direction == 1
+          lines = string.split "\n"
+          (0..(%x[tput cols].to_i - 1) - lines[0].length).each do # Holy Moly, from 0 to (terminal width minus 1) minus length of the ascii art word.
+            lines.each_with_index { |line, j| lines[j].insert 0, " " }
           end
+          string = lines.join "\n"
         end
-        string = lines.join "\n"
+        breaks[i] = string
       end
-      return string
+      string = breaks.join ""
+
+      lines = string.split "\n"
+      offset = 0
+      (lines.size).times do |j|
+        if lines[j - offset].strip.empty? # when a line is deleted, there must be an offset as the new array is now shorter (after a delete) so we must climb back up it, so that whe don't dlete wrong lines and try to access non-existent indices
+          lines.delete_at(j - offset)  # Remove any empty lines
+          offset += 1
+        end
+      end
+      return lines.join "\n"
     end
 
     def show

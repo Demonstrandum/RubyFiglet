@@ -22,4 +22,5 @@ if ARGV.include? '-f'
   ARGV.delete('-f')
   ARGV.delete(font)
 end
-puts ARGV[0].art font
+first_arg = ARGV[0].gsub("\\n", "\n")
+puts first_arg.art font

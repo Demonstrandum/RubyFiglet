@@ -27,8 +27,9 @@ puts moo # Default font is 'standard' when no arguments given
 
 # or just
 
-puts "meow...".art
-puts RubyFiglet::Figlet.new "meow..." # both work the same
+print "meow...".art
+print RubyFiglet::Figlet.new("meow...").stringify
+RubyFiglet::Figlet.new("meow...").show # all work the same
 
 # str.art(font)/str.art!(font) and RubyFiglet::Figlet.new(str, font) have a font parameter!
 
@@ -44,7 +45,7 @@ puts "Heizölrückstoßabdämpfung".art # =>
 # |_| |_| \___||_|/___| \___/ |_||_|    \__,_| \___||_|\_\|___/ \__| \___/ | ||_/ \__,_||_.__/  \__,_| \__,_||_| |_| |_|| .__/ |_|   \__,_||_| |_| \__, |
 #                                                                          |_|                                          |_|                        |___/
 
-puts RubyFiglet::Figlet.new("It's an abstract sort of font", 'weird')
+puts RubyFiglet::Figlet.new("It's an abstract sort of font", 'weird').stringify
 
 bowl = "Soup?"
 bowl.art! 'alphabet'
