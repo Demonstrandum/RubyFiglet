@@ -68,6 +68,9 @@ module RubyFiglet
       (0..dir.size - 1).each do |i|
         dir[i] += '/' unless dir[i].include? '.flf'
       end
+      (0..dir.size - 1).each do |i|
+        dir[i] = "" unless dir[i].include?('.flf') || dir[i].include?('/')
+      end
       list = dir.join "\n"
       ignore = ["..", ".", ".DS_Store", "._.DS_Store", ".DS_Store?", ".Spotlight-V100", ".Trashes", "ehthumbs.db", "Thumbs.db", "desktop.ini"]
       ignore.each { |file| list.gsub! "#{file}/", "" }
