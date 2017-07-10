@@ -66,7 +66,7 @@ module RubyFiglet
     def self.available folder="#{WD}/fonts/"
       dir = Dir.entries(folder)
       (0..dir.size - 1).each do |i|
-        dir[i] += '/' unless dir[i].include? '.flf'
+        dir[i] += '/' unless dir[i].include? '.'
       end
       (0..dir.size - 1).each do |i|
         dir[i] = "" unless dir[i].include?('.flf') || dir[i].include?('/')
