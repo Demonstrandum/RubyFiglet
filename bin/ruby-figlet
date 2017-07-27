@@ -19,8 +19,8 @@ exit 0 if ARGV[0] == 'list'
 font = 'standard'
 if ARGV.include? '-f'
   font = ARGV[ARGV.index('-f') + 1]
+	ARGV.delete_at (ARGV.index('-f') + 1)
   ARGV.delete('-f')
-  ARGV.delete(font)
 end
 first_arg = ARGV[0].gsub("\\n", "\n")
 puts first_arg.art font
