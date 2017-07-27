@@ -20,6 +20,11 @@ ruby-figlet -f alligator "ruby"
  #+#    #+#     #+#    #+#     #+#    #+#      #+#         
 ###    ###      ########      #########       ###    
 
+# You can list all the possible fonts with `ruby-figlet list`
+# To preview the fonts, you could do something like this:
+OLDIFS=$IFS; IFS=$'\n'; for f in $(ruby-figlet list); do printf "\n\n\nFont: \"$f\":\n\n"; ruby-figlet "$f " -f "$f"; done; IFS=$OLDIFS
+
+# please note that the list of fonts is very long, and will flood the terminal. 
 ```
 But mainly as a library
 ```ruby
