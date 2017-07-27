@@ -53,8 +53,9 @@ module FigFont
       # we've got the information, now delete it form the `lines`
       (0..@commented).each { lines.delete_at 0 } # since I delete the first line, the next line has now become the first line,
 
-      endmark = lines[0][lines[0].length - 1]
-      (0..lines.size - 1).each { |i| lines[i].gsub!(endmark, "") } #remove endmarks
+			lines.size.times { |i| lines[i].gsub!("\r", "") }
+			endmark = lines.first[-1]
+			lines.size.times { |i| lines[i].gsub!(endmark, "") } #remove endmarks
 
       char_hash = Hash.new
       (32..126).each do |code|
