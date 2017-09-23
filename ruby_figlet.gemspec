@@ -1,11 +1,13 @@
+require_relative 'lib/ruby_figlet'
+
 Gem::Specification.new do |s|
   s.name        = 'ruby_figlet'
-  s.version     = '0.4.6'
-  s.required_ruby_version = '>= 1.9.2'
+  s.version     = RubyFiglet::version
+  s.required_ruby_version = '>= 2.0.0'
   s.executables << 'ruby-figlet'
-  s.date        = '2017-07-02'
+  s.date        = Time.now.to_s.split(/\s/)[0]
   s.summary     = "FIGlet in Ruby"
-  s.description = "FIGlet font interpretation library for Ruby"
+  s.description = "FIGlet font interpretation and printing library for Ruby"
   s.authors     = ["Demonstrandum"]
   s.email       = 'knutsen@jetspace.co'
   s.files       = Dir.glob("{bin,lib}/**/*") + %w(LICENSE README.md)
