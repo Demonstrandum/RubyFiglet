@@ -94,7 +94,7 @@ module FigFont
         (0..letter_arr.min_by(&:length).length - 1).each do |over| # from 0 to the length of the shortest line in the array
           same_at_index = Array.new(@height - 1, false)
           (0..@height - 2).each do |down|
-            same_at_index[down] = true if (letter_arr[down][over] == letter_arr[down + 1][over]) && (letter_arr[down][over] == ' ' && letter_arr[down + 1][over] == ' ')
+            same_at_index[down] = letter_arr[down][over] == ' ' && letter_arr[down + 1][over] == ' '
           end
           if same_at_index.all?
             @height.times { |down| hash[letter][down].delete_at! over }
