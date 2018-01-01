@@ -1,26 +1,32 @@
+# Add some useful methods for String class:
+# - String#to_utf8 forces utf8 encoding
+# - String#delete_at returns a new string with a certain index of a character
+# deleted.
+# - String#delete_at! is the self mutating equivilant.
 class String
   def to_utf8
-    str = self.force_encoding("UTF-8")
+    str = force_encoding 'UTF-8'
     return str if str.valid_encoding?
-    str = str.force_encoding("BINARY")
-    str.encode("UTF-8", invalid: :replace, undef: :replace)
+    str = str.force_encoding 'BINARY'
+    str.encode 'UTF-8', :invalid => :replace, :undef => :replace
   end
 
   def delete_at! n
     slice! n
     self
   end
+
   def delete_at n
     dup.delete_at! n
   end
 end
 
-module FigFont
+module RubyFiglet
   WD = File.dirname(__FILE__)
-  class Figlet
+  class Parser
     def initialize font
       unless Dir.entries("#{WD}/fonts").include? "#{font}.flf"
-        puts "Font not found!"
+        puts 'Font not found!'
         exit 1
       end
       @fontName = font
@@ -61,7 +67,7 @@ module FigFont
         char_hash[code.chr] = Array.new(@height, String.new)
       end # Much shorter than manually writing out every value
 
-      char_hash.merge!({
+      char_hash.merge!(
         'Ä' => Array.new(@height, String.new),
         'Ö' => Array.new(@height, String.new),
         'Ü' => Array.new(@height, String.new),
@@ -69,30 +75,30 @@ module FigFont
         'ö' => Array.new(@height, String.new),
         'ü' => Array.new(@height, String.new),
         'ß' => Array.new(@height, String.new)
-      }) if lines.length > 95 * @height # 95 is the range of the num. of  the default chars
+      ) if lines.length > 94 * @height # 94 is the n. of required ASCII chars
 
-      char_hash.each do |key, value|
+      char_hash.each do |key, _|
         @height.times { |line| char_hash[key][line] = lines[line] }
         lines.slice! 0..@height - 1
       end
 
       smush! char_hash unless @old_lay == -1
       char_hash.each do |key, arr|
-        @height.times { |i| char_hash[key][i] = arr[i].gsub(@hardblank, " ") }
+        @height.times { |i| char_hash[key][i] = arr[i].gsub @hardblank, " " }
       end
 
       # Add fake newline character
-      newline = Array.new(@height, String.new)
+      newline = Array.new @height, String.new
       newline[-1] = 10.chr
       char_hash[10.chr] = newline
 
-      return char_hash
+      char_hash
     end
 
     private def smush hash
       hash.each do |letter, letter_arr|
-        (0..letter_arr.min_by(&:length).length - 1).each do |over| # from 0 to the length of the shortest line in the array
-          same_at_index = Array.new(@height - 1, false)
+        (0..letter_arr.min_by(&:length).length - 1).each do |over|
+          same_at_index = Array.new @height - 1, false
           (0..@height - 2).each do |down|
             same_at_index[down] = letter_arr[down][over] == ' ' && letter_arr[down + 1][over] == ' '
           end
@@ -108,9 +114,9 @@ module FigFont
       hash.replace smush hash
     end
 
-    def font_data
+    def font_table
       {
-        'lookup_table': scan,
+        'letter_lookup': scan,
         'height': @height,
         'direction': @print_way,
         'old_layout': @old_lay,

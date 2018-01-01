@@ -17,20 +17,22 @@ gem install ruby_figlet --no-rdoc --no-ri
 In your shell
 ```shell
 ruby-figlet -f alligator "ruby"
-
+```
+```
       :::::::::      :::    :::     :::::::::    :::   :::
      :+:    :+:     :+:    :+:     :+:    :+:   :+:   :+:  
     +:+    +:+     +:+    +:+     +:+    +:+    +:+ +:+    
    +#++:++#:      +#+    +:+     +#++:++#+      +#++:      
   +#+    +#+     +#+    +#+     +#+    +#+      +#+        
  #+#    #+#     #+#    #+#     #+#    #+#      #+#         
-###    ###      ########      #########       ###    
-
+###    ###      ########      #########       ###          
+```
+```shell
 # You can list all the possible fonts with `ruby-figlet list`
 # To preview the fonts, you could do something like this:
 OLDIFS=$IFS; IFS=$'\n'; for f in $(ruby-figlet list); do printf "\n\n\nFont: \"$f\":\n\n"; ruby-figlet "$f " -f "$f"; done; IFS=$OLDIFS
 
-# please note that the list of fonts is very long, and will flood the terminal. 
+# please note that the list of fonts is very long, and will flood the terminal.
 ```
 But mainly as a library
 
@@ -57,7 +59,7 @@ puts moo # Default font is 'standard' when no arguments given
 # or
 
 puts "meow...".art                               # all
-puts RubyFiglet::Figlet.new("meow...").stringify # work
+puts RubyFiglet::Figlet.new("meow...").to_s      # work
 RubyFiglet::Figlet.new("meow...").show           # equally
 
 # str.art(font)/str.art!(font) and RubyFiglet::Figlet.new(str, font) have a font parameter!
@@ -112,4 +114,3 @@ two_lines.show
 # 88booo.   .88.   88  V888 88.     
 # Y88888P Y888888P VP   V8P Y88888P
 ```
-
