@@ -1,13 +1,3 @@
-class String
-  def each
-    i = 0
-    while i < length
-      yield self[i]
-      i += 1
-    end
-  end
-end
-
 module RubyFiglet
   refine String do
     def art(font='standard');  RubyFiglet::Figlet.new(self, font).stringify end
@@ -32,7 +22,7 @@ module RubyFiglet
       breaks.each_with_index do |break_line, i|
         string = String.new
         @height.times do |row|
-          break_line.each { |char| string << @lookup[char][row] }
+          break_line.each_char { |char| string << @lookup[char][row] }
           string << "\n"
         end
         if @direction == 1
